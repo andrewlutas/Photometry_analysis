@@ -15,7 +15,7 @@ else
 end
 
 % Add subfolder
-addpath('functions');
+%addpath('functions');
 
 
 % ============================= General info ==============================

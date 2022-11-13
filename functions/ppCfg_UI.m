@@ -6,18 +6,18 @@ if nargin < 1
     defaultpath = '';
 end
 
-% Cleopatra tcp
-rigs.cleopatra.tcp.name = 'Cleopatra TCP';
-rigs.cleopatra.tcp.mode = '1. Green sensor + 405 movement';
-rigs.cleopatra.tcp.data_channel = 1;
-rigs.cleopatra.tcp.data_channel2 = 99;
-rigs.cleopatra.tcp.opto_channel = 99;
-rigs.cleopatra.tcp.ch1_pulse_ind = 2;
-rigs.cleopatra.tcp.ch2_pulse_ind = 9;
-rigs.cleopatra.tcp.ch1_pulse_thresh = 2;
-rigs.cleopatra.tcp.ch2_pulse_thresh = 0.5;
-rigs.cleopatra.tcp.optomode = false;
-rigs.cleopatra.tcp.tone_channel = 99; 
+% NIH tcp
+rigs.NIH.tcp.name = 'NIH TCP';
+rigs.NIH.tcp.mode = '1. Green sensor + 405 movement';
+rigs.NIH.tcp.data_channel = 1;
+rigs.NIH.tcp.data_channel2 = 99;
+rigs.NIH.tcp.opto_channel = 5;
+rigs.NIH.tcp.ch1_pulse_ind = 6;
+rigs.NIH.tcp.ch2_pulse_ind = 7;
+rigs.NIH.tcp.ch1_pulse_thresh = 2;
+rigs.NIH.tcp.ch2_pulse_thresh = 2;
+rigs.NIH.tcp.optomode = true;
+rigs.NIH.tcp.tone_channel = 5; 
 
 % Cleopatra optophoto (Green Sensor + Red Stim)
 rigs.cleopatra.optophoto.name = 'Cleopatra GCaMP + Chrimson';
