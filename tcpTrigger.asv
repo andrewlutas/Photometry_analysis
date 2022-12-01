@@ -27,7 +27,7 @@ else
     filename_output_triggered = sprintf('%s_trig_%s.mat', filename(1:end-4), TrigCfg.suffix);
 end
 load(fullfile(filepath, filename), 'data', 'freq', 'ch1_data_table',...
-    'Ch1_filtered', 'n_points', 'opto_pulse_table', 'tone_pulse_table','signal');
+    'Ch1_filtered', 'n_points', 'opto_pulse_table', 'tone_pulse_table');
 
 %% GLM remove channel artifacts
 % Issue with small NIDAQ 
@@ -124,7 +124,6 @@ n_optostims = length(opto_ons);
 
 %% Flatten data
 % Pull data
-
 data2use = Ch1_filtered;
 
 % Flatten if needed
@@ -149,7 +148,7 @@ plot([data2use, opto])
 % Dff data if needed
 if TrigCfg.dff_data
     % Pull data
-    data2use = signal;
+    data2use = Ch1_filtered;
 
     if TrigCfg.Remove_artifacts
         data2use = tcpPercentiledff(datavec_artifactremoved, freq, TrigCfg.dff_win, TrigCfg.dff_prc);
@@ -187,9 +186,7 @@ runningfn_full = fullfile(filepath, runningfn);
 if exist(runningfn_full, 'file')
     % Load running data
     running = load(runningfn_full, 'speed');
-
-    running.speed = running.speed * -1; %% NIHomnibox is inverted rotary encoded
-
+    
     % Running running sample count
     nrunpulse = size(chainfinder(data(TrigCfg.camch,:)>1),1);
     nrunlength = length(running.speed);
@@ -238,11 +235,7 @@ for i = 1 : n_points
     % Wavelength 1
     ini_ind = lickvec(i,1) + 6;
     end_ind = lickvec(i,1) + lickvec(i,3) - 1;
-    if ini_ind<end_ind
-        lickvec(i,2) = max(data(TrigCfg.lickch, ini_ind:end_ind));
-    else
-        lickvec(i,2) = nan;
-    end
+    lickvec(i,2) = max(data(TrigCfg.lickch, ini_ind:end_ind));
 end
 lickvec = lickvec(:,2);
 
@@ -256,7 +249,7 @@ lickmat_avg = mean(lickmat,2);
 figure
 hold on
 plot(-TrigCfg.prew : 1/freq : TrigCfg.postw, trigmat_avg)
-plot(-TrigCfg.prew : 1/freq : TrigCfg.postw, lickmat_avg/max(lickmat_avg)/10)
+plot(-TrigCfg.prew : 1/freq : TrigCfg.postw, lickmat_avg)
 plot([0 tl], [mean(trigmat_avg), mean(trigmat_avg)], 'LineWidth', 5)
 
 % Plot running

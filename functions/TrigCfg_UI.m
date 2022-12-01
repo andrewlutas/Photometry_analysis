@@ -7,16 +7,16 @@ if nargin < 1
 end
 
 % Cleopatra optophoto (Green Sensor + Red Stim)
-rigs.cleopatra.optophoto.name = 'Cleopatra GCaMP + Chrimson';
+rigs.cleopatra.optophoto.name = 'NIH GCaMP + Chrimson';
 rigs.cleopatra.optophoto.mode = '1. Green sensor + Red stim';
-rigs.cleopatra.optophoto.opto_channel = 9;
-rigs.cleopatra.optophoto.ch1_pulse_ind = 2;
+rigs.cleopatra.optophoto.opto_channel = 5;
+rigs.cleopatra.optophoto.ch1_pulse_ind = 6;
 rigs.cleopatra.optophoto.minpulsewidth = 5;
 rigs.cleopatra.optophoto.ch1_pulse_thresh = 1;
 rigs.cleopatra.optophoto.optomode = true;
-rigs.cleopatra.optophoto.camch = 4;
-rigs.cleopatra.optophoto.lickch = 8;
-rigs.cleopatra.optophoto.trigtone = false;
+rigs.cleopatra.optophoto.camch = 2;
+rigs.cleopatra.optophoto.lickch = 4;
+rigs.cleopatra.optophoto.trigtone = true;
 
 % Minerva optophoto
 rigs.minerva.optophoto.name = 'Minerva placeholder';
@@ -100,14 +100,14 @@ else
 
     % Window info (seconds before and after pulse onsets)
     TrigCfg.prew = 10; % 8
-    TrigCfg.postw = 50; % 28
+    TrigCfg.postw = 30; % 28
 
     % Interpolate out artifacts (problem with small NIDAQs)
     TrigCfg.Remove_artifacts = false;
     TrigCfg.artifact_ch = [4, 8];
 
     % GLM regress out artifacts
-    TrigCfg.GLM_artifacts = true;
+    TrigCfg.GLM_artifacts = false;
     TrigCfg.GLM_ch = 6;
 
     % The minimal number of seconds between pulses that are still in the same

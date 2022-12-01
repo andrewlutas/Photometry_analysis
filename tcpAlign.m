@@ -485,7 +485,8 @@ end
 if strcmpi(AlignCfg.fit_mode, 'ratiometric')
     signal = ch1_to_fix ./ ch2_to_fix;
 elseif OPTO_MODE
-    signal = ch1_to_fix;
+    signal = ch1_to_fix - ch2_to_fix;
+    %signal = ch1_to_fix;
 else
     signal = ch1_to_fix - ch2_to_fix;
 end
@@ -512,5 +513,5 @@ if SaveResults
         'filepath2', 'filename_output_fixed', 'fitinfo', 'fitting_segments',...
         'freq', 'Fs', 'intactpoints', 'n_ignorepts', 'n_points', 'signal',...
         'OPTO_MODE', 'PULSE_SIM_MODE', 'timestamps', 'prefiterr',...
-        'postfiterr', 'ignorepoints');
+        'postfiterr', 'ignorepoints', 'opto_pulse_table', 'tone_pulse_table');
 end
