@@ -100,7 +100,7 @@ else
 
     % Window info (seconds before and after pulse onsets)
     TrigCfg.prew = 10; % 8
-    TrigCfg.postw = 30; % 28
+    TrigCfg.postw = 20; % 28
 
     % Interpolate out artifacts (problem with small NIDAQs)
     TrigCfg.Remove_artifacts = false;

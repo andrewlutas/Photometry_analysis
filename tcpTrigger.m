@@ -125,7 +125,7 @@ n_optostims = length(opto_ons);
 %% Flatten data
 % Pull data
 
-data2use = Ch1_filtered;
+data2use = signal;
 
 % Flatten if needed
 if TrigCfg.flatten_data
@@ -149,7 +149,7 @@ plot([data2use, opto])
 % Dff data if needed
 if TrigCfg.dff_data
     % Pull data
-    data2use = signal;
+    data2use = Ch1_filtered;
 
     if TrigCfg.Remove_artifacts
         data2use = tcpPercentiledff(datavec_artifactremoved, freq, TrigCfg.dff_win, TrigCfg.dff_prc);
@@ -181,7 +181,9 @@ trigmat_avg = nanmean(trigmat,2);
 
 %% Deal with motion
 % Check if the running file is there
-runningfn = sprintf('%srunning.mat', filename(1:end-22));
+
+runningfn = sprintf('%srunning.mat', filename(1:end-28));
+
 runningfn_full = fullfile(filepath, runningfn);
 
 if exist(runningfn_full, 'file')
@@ -232,19 +234,36 @@ else
 end
 
 %% Deal with licking
+% % Initialize a triggered lick matrix
+% lickvec = ch1_data_table;
+% for i = 1 : n_points
+%     % Wavelength 1
+%     ini_ind = lickvec(i,1) + 6;
+%     end_ind = lickvec(i,1) + lickvec(i,3) - 1;
+%     if ini_ind<end_ind
+%         lickvec(i,2) = max(data(TrigCfg.lickch, ini_ind:end_ind));
+%     else
+%         lickvec(i,2) = nan;
+%     end
+% end
+% lickvec = lickvec(:,2);
+% 
+% lickmat = zeros(l, n_optostims);
+% for i = 1 : n_optostims
+%     lickmat(:,i) = lickvec(inds(i,1) : inds(i,2));
+% end
+% lickmat_avg = mean(lickmat,2);
+
+%% Deal with licking
 % Initialize a triggered lick matrix
-lickvec = ch1_data_table;
-for i = 1 : n_points
-    % Wavelength 1
-    ini_ind = lickvec(i,1) + 6;
-    end_ind = lickvec(i,1) + lickvec(i,3) - 1;
-    if ini_ind<end_ind
-        lickvec(i,2) = max(data(TrigCfg.lickch, ini_ind:end_ind));
-    else
-        lickvec(i,2) = nan;
-    end
-end
-lickvec = lickvec(:,2);
+
+ch1_pulse_ind = TrigCfg.ch1_pulse_ind;
+lick_channel = TrigCfg.lickch;
+
+lick_pulse_table = tcpDatasnapper(data(lick_channel,:),...
+        data(ch1_pulse_ind,:), 'max', 'pulsetopulse');
+
+lickvec = lick_pulse_table(:,2);
 
 lickmat = zeros(l, n_optostims);
 for i = 1 : n_optostims
